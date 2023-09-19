@@ -1,0 +1,10 @@
+.venv
+__pycache__
+*.sqlite3
+.env
+backend/images/covers/*
+backend/images/profiles/*
+!backend/images/*/INFO.md
+!backend/images/user.png
+core/migrations/0*.py
+backend/staticfiles
