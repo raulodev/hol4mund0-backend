@@ -182,22 +182,6 @@ class UserSerializer(serializers.ModelSerializer):
         return None
 
 
-class RegisterSerializer(UserSerializer):
-    email = serializers.EmailField(required=True, write_only=True, max_length=128)
-
-    class Meta:
-        model = User
-        fields = [
-            "id",
-            "email",
-            "username",
-            "first_name",
-            "provider",
-            "description",
-        ]
-        read_only_fields = ["id"]
-
-
 class ReportArticleSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source="author.username")
 

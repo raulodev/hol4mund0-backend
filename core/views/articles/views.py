@@ -99,7 +99,10 @@ class ReadArticleView(APIView):
         article = get_object_or_404(
             Article, author__username=kwargs.get("author"), slug=kwargs.get("slug")
         )
-        article.increment_views()
+
+        if not article.is_draft:
+            article.increment_views()
+
         serializer = ArticleSerializer(article, context={"request": request})
         return Response(serializer.data)
 
@@ -119,6 +122,7 @@ class SearchView(APIView):
                     "slug": article.slug,
                     "author": article.author.username,
                     "first_name": article.author.first_name,
+                    "cover": article.preview_cover_image,
                 }
             )
 

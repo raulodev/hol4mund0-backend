@@ -22,20 +22,10 @@ router.register("api/reportuser", reports_views.ReportUserViewSet)
 router.register("api/like", likes_views.LikeViewSet)
 
 
-# authentication
-
-# router.register(
-#     "api/auth/register",
-#     viewset=auth_views.RegistrationViewSet,
-#     basename="auth-register",
-# )
-
 urlpatterns = [
     path("", include(router.urls)),
     path("admin/", admin.site.urls),
     path("api/auth/register/", auth_views.RegistrationViewSet.as_view()),
-    # path("api-auth/", include("rest_framework.urls", namespace="rest_framework")),
-    # path("api/token/verify/", TokenVerifyView.as_view()),
 ]
 
 
