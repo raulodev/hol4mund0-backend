@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 
@@ -122,7 +123,7 @@ class SearchView(APIView):
                     "slug": article.slug,
                     "author": article.author.username,
                     "first_name": article.author.first_name,
-                    "cover": article.preview_cover_image,
+                    "cover": f"{settings.API_BASE_URL}/article/{article.id}/cover",
                 }
             )
 
