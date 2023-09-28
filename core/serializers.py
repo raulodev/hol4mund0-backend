@@ -182,6 +182,32 @@ class UserSerializer(serializers.ModelSerializer):
         return None
 
 
+class RetriveUserSerializer(UserSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "username",
+            "description",
+            "preview_profile_image",
+            "first_name",
+            "last_name",
+            "website_url",
+            "facebook_url",
+            "instagram_url",
+            "whatsapp_url",
+            "telegram_url",
+            "twitter_url",
+            "github_url",
+            "linkedin_url",
+            "articles",
+            "comments",
+            "likes",
+        ]
+
+        read_only_fields = fields
+
+
 class ReportArticleSerializer(serializers.ModelSerializer):
     author = serializers.ReadOnlyField(source="author.username")
 

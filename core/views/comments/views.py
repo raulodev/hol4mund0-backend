@@ -30,6 +30,7 @@ class UserCommentsListView(generics.ListAPIView):
     """Retorna los comentarios de un usuario"""
 
     serializer_class = CommentSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         author = self.kwargs["author"]

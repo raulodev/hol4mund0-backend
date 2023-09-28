@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework_simplejwt.views import TokenVerifyView
 
 from core.views.articles import views as articles_views
 from core.views.comments import views as comments_views

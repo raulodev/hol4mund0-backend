@@ -7,21 +7,21 @@ from rest_framework import permissions
 from rest_framework import generics
 from rest_framework import viewsets
 
-from core.serializers import UserSerializer
+from core.serializers import UserSerializer, RetriveUserSerializer
 from core.models import User
 
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAdminUser]
 
 
 class UserDetailViewUsername(generics.RetrieveAPIView):
     """Devuelve los datos del usuario por el campo username"""
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = RetriveUserSerializer
     lookup_field = "username"
 
 
