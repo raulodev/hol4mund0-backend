@@ -1,6 +1,9 @@
 import re
 import random
 import string
+import requests
+from requests_oauthlib import OAuth1
+from django.conf import settings
 from rest_framework.response import Response
 from rest_framework import permissions
 from rest_framework import status
@@ -9,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from core.models import User
 
 
-class RegistrationViewSet(APIView):
+class RegistrationView(APIView):
     permission_classes = [permissions.AllowAny]
     http_method_names = ["post"]
 
@@ -17,12 +20,10 @@ class RegistrationViewSet(APIView):
         email = request.data.get("email")
         username = request.data.get("username")
 
-        if not is_valid(email, username):
+        if not verify_credentials(email, username, request.data):
             return Response(
                 {
-                    "error": "el username o email no son  válidos",
-                    "username": username,
-                    "email": email,
+                    "error": "Los datos proporcionados no son correctos",
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
@@ -68,11 +69,56 @@ def create_random_username() -> str:
     return "".join(random.choice(chars) for _ in range(15))
 
 
-def is_valid(email, username) -> bool:
-    if not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
+def verify_credentials(email, username, data) -> bool:
+    """verificar que los datos enviados son correctos"""
+
+    provider = data.get("provider")
+
+    providers = ("github", "twitter")
+
+    if not username or not email or provider not in providers:
         return False
 
-    if not username:
+    elif not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
         return False
+
+    # Comprobar las credenciales en github
+    if provider == "github":
+        access_token = data.get("access_token")
+
+        if not access_token:
+            return False
+
+        resp = requests.get(
+            "https://api.github.com/user",
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+
+        if resp.status_code != 200:
+            return False
+
+    # Comprobar las credenciales en twitter
+    elif provider == "twitter":
+        oauth_token = data.get("oauth_token")
+        oauth_token_secret = data.get("oauth_token_secret")
+
+        if not oauth_token or not oauth_token_secret:
+            return False
+
+        auth = OAuth1(
+            settings.CONSUMER_KEY,
+            settings.CONSUMER_SECRET,
+            oauth_token,
+            oauth_token_secret,
+        )
+
+        resp = requests.get(
+            "https://api.twitter.com/1.1/account/verify_credentials.json", auth=auth
+        )
+
+
+        if resp.status_code != 200:
+            return False
+
 
     return True

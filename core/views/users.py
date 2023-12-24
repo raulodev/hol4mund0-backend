@@ -39,5 +39,7 @@ class GetMeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = UserSerializer(instance=request.user, context={"request": request})
+
         return Response(serializer.data)

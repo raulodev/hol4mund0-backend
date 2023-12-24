@@ -17,7 +17,6 @@ AUTH_USER_MODEL = "core.User"
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(",")
 
-CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ALLOWED_ORIGINS = os.environ.get("CORS_ALLOWED_ORIGINS").split(",")
@@ -133,3 +132,7 @@ SIMPLE_JWT = {
 }
 
 API_BASE_URL = os.environ.get("API_BASE_URL", "http://127.0.0.1:8000/api")
+
+# From https://developer.twitter.com/
+CONSUMER_KEY = os.environ.get("CONSUMER_KEY")
+CONSUMER_SECRET = os.environ.get("CONSUMER_SECRET")
