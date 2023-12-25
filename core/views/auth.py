@@ -39,7 +39,7 @@ class RegistrationView(APIView):
                 username=username,
                 email=email,
                 first_name=request.data.get("first_name", ""),
-                provider=request.data.get("provider", ""),
+                provider=request.data.get("provider"),
                 description=request.data.get("description", ""),
             )
 
@@ -82,7 +82,7 @@ def verify_credentials(email, username, data) -> bool:
     elif not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
         return False
 
-    # Comprobar las credenciales en github
+    # Comprobar las credenciales de github
     if provider == "github":
         access_token = data.get("access_token")
 
