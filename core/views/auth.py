@@ -116,9 +116,7 @@ def verify_credentials(email, username, data) -> bool:
             "https://api.twitter.com/1.1/account/verify_credentials.json", auth=auth
         )
 
-
         if resp.status_code != 200:
             return False
-
 
     return True

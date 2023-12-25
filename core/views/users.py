@@ -12,22 +12,16 @@ from core.models import User
 
 
 class UserViewSet(viewsets.ModelViewSet):
-
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        """
-        Instantiates and returns the list of permissions that this view requires.
-        """
-        if self.action == 'list':
+        if self.action == "list":
             permission_classes = [permissions.IsAdminUser]
         else:
             permission_classes = [permissions.IsAuthenticated]
 
         return [permission() for permission in permission_classes]
-
-
 
 
 class UserDetailViewUsername(generics.RetrieveAPIView):
@@ -52,7 +46,6 @@ class GetMeView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
         serializer = UserSerializer(instance=request.user, context={"request": request})
 
         return Response(serializer.data)
