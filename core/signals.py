@@ -32,6 +32,6 @@ def remove_old_profile_image(sender, instance: User, **kwargs):
 
     user = User.objects.filter(pk=instance.pk).first()
 
-    if user.profile_image:
+    if user :
         if os.path.isfile(user.profile_image.path):
             os.remove(user.profile_image.path)
