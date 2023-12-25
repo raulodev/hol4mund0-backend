@@ -62,7 +62,7 @@ Ejemplo
 ALLOWED_HOSTS=backend.miblog.com,
 ```
 
-`CORS_ALLOWED_ORIGINS` : Dominio donde corre tu fronted separado o terminado en una coma (,)
+`CORS_ALLOWED_ORIGINS` : Dominio donde corre tu frontend separado o terminado en una coma (,)
 
 Ejemplo
 
