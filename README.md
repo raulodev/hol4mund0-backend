@@ -90,6 +90,17 @@ Variables de entorno relacionadas con la base de datos:
 python manage.py collectstatic
 ```
 
+### Crear migraciones
+
+```
+python manage.py makemigrations
+```
+
+```
+python manage.py migrate
+```
+
+
 ### Levantar servidor
 
 Con gunicorn:
