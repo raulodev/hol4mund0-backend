@@ -11,18 +11,16 @@ def remove_old_cover(sender, instance: Article, signal, **kwargs):
     if signal == pre_save:
         article = Article.objects.filter(pk=instance.pk).first()
 
-        if article :
-
-            if os.path.isfile(article.cover_image.path):
-
+        if article:
+            if (
+                os.path.isfile(article.cover_image.path)
+                and article.cover_image.path != instance.cover_image.path
+            ):
                 os.remove(article.cover_image.path)
 
-    elif signal == post_delete :
-
-        if instance.cover_image :
-
+    elif signal == post_delete:
+        if instance.cover_image:
             if os.path.isfile(instance.cover_image.path):
-
                 os.remove(instance.cover_image.path)
 
 
@@ -32,6 +30,6 @@ def remove_old_profile_image(sender, instance: User, **kwargs):
 
     user = User.objects.filter(pk=instance.pk).first()
 
-    if user :
+    if user:
         if os.path.isfile(user.profile_image.path):
             os.remove(user.profile_image.path)
