@@ -31,5 +31,13 @@ def remove_old_profile_image(sender, instance: User, **kwargs):
     user = User.objects.filter(pk=instance.pk).first()
 
     if user:
-        if os.path.isfile(user.profile_image.path):
-            os.remove(user.profile_image.path)
+        is_image_user_default = user.profile_image.path.endswith(
+            "/backend/images/user.png"
+        )
+
+        if (
+            not is_image_user_default
+            and user.profile_image.path != instance.profile_image.path
+        ):
+            if os.path.isfile(user.profile_image.path):
+                os.remove(user.profile_image.path)
