@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractBaseUser, UserManager, Group, Permission
 from django.db import models
+from django.utils import timezone
 from autoslug import AutoSlugField
 
 
@@ -35,7 +36,7 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, blank=True)
     user_permissions = models.ManyToManyField(Permission, blank=True)
-    date_joined = models.DateTimeField(auto_now_add=True, editable=True)
+    date_joined = models.DateTimeField("date joined", default=timezone.now)
 
     objects = UserManager()
 
@@ -69,7 +70,7 @@ class Article(models.Model):
     views = models.PositiveIntegerField(default=0)
 
     class Meta:
-        ordering = ["-updated_at"]
+        ordering = ["-created_at"]
 
     def __str__(self):
         return self.title
