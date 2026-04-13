@@ -1,15 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import (
-    User,
-    ReportArticle,
-    Article,
-    Comment,
-    ReportComment,
-)
+
+from core.models import Article, ArticleView, Comment, Like, User, UserProfile
 
 admin.site.register(User, UserAdmin)
-admin.site.register(ReportArticle)
 admin.site.register(Article)
-admin.site.register(ReportComment)
 admin.site.register(Comment)
+admin.site.register(ArticleView)
+admin.site.register(Like)
+admin.site.register(UserProfile)
