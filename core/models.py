@@ -1,7 +1,6 @@
-from django.contrib.auth.models import AbstractBaseUser, UserManager, Group, Permission
-from django.db import models
-from django.utils import timezone
 from autoslug import AutoSlugField
+from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 
 def directory_profile_images(instance, filename):
@@ -12,49 +11,34 @@ def directory_covers(instance, filename):
     return "covers/{0}/{1}".format(instance.author.username, filename)
 
 
-class User(AbstractBaseUser):
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=50, unique=True)
-    first_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
-    description = models.CharField(max_length=255, blank=True)
-    profile_image = models.ImageField(
-        upload_to=directory_profile_images, blank=True, default="user.png"
-    )
-    provider = models.CharField(max_length=255, blank=True)
+class User(AbstractUser):
+    class AuthProviderChoices(models.TextChoices):
+        GITHUB = "GITHUB"
+        TWITTER = "TWITTER"
 
-    website_url = models.CharField(max_length=255, blank=True)
-    facebook_url = models.CharField(max_length=255, blank=True)
-    instagram_url = models.CharField(max_length=255, blank=True)
-    whatsapp_url = models.CharField(max_length=255, blank=True)
-    telegram_url = models.CharField(max_length=255, blank=True)
-    twitter_url = models.CharField(max_length=255, blank=True)
-    github_url = models.CharField(max_length=255, blank=True)
-    linkedin_url = models.CharField(max_length=255, blank=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_superuser = models.BooleanField(default=False)
-    groups = models.ManyToManyField(Group, blank=True)
-    user_permissions = models.ManyToManyField(Permission, blank=True)
-    date_joined = models.DateTimeField("date joined", default=timezone.now)
-
-    objects = UserManager()
+    auth_provider = models.CharField(choices=AuthProviderChoices.choices, max_length=7)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = ["email"]
 
     def __str__(self):
         return self.email
 
-    def has_perm(self, perm, obj=None):
-        "Does the user have a specific permission?"
-        # Simplest possible answer: Yes, always
-        return True
 
-    def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app `app_label`?"
-        # Simplest possible answer: Yes, always
-        return True
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    profile_image = models.ImageField(
+        upload_to=directory_profile_images, blank=True, null=True
+    )
+    description = models.CharField(max_length=255, blank=True, null=True)
+    website = models.URLField(max_length=255, blank=True)
+    facebook = models.URLField(max_length=255, blank=True)
+    instagram = models.URLField(max_length=255, blank=True)
+    whatsapp = models.URLField(max_length=255, blank=True)
+    telegram = models.URLField(max_length=255, blank=True)
+    twitter = models.URLField(max_length=255, blank=True)
+    github = models.URLField(max_length=255, blank=True)
+    linkedin = models.URLField(max_length=255, blank=True)
 
 
 class Article(models.Model):
@@ -67,23 +51,28 @@ class Article(models.Model):
     cover_image = models.ImageField(upload_to=directory_covers, blank=True)
     tags = models.CharField(max_length=300)
     slug = AutoSlugField(populate_from="title", unique_with=["author__username"])
-    views = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        ordering = ["-created_at"]
 
     def __str__(self):
         return self.title
 
     def increment_views(self):
-        self.views += 1
-        self.save()
+        # TODO: add view
+        ...
+
+
+class ArticleView(models.Model):
+    article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name="views")
+    ip_address = models.GenericIPAddressField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class Like(models.Model):
     author = models.ForeignKey(User, related_name="likes", on_delete=models.CASCADE)
     article = models.ForeignKey(Article, related_name="likes", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ["author", "article"]
 
 
 class Comment(models.Model):
@@ -94,52 +83,9 @@ class Comment(models.Model):
     parent_comment = models.ForeignKey(
         "self", related_name="replies", null=True, blank=True, on_delete=models.CASCADE
     )
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
-    content = models.TextField()
-
-    class Meta:
-        ordering = ["created_at"]
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.author.username
-
-
-class ReportArticle(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    content = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["-created"]
-
-    def __str__(self):
-        return self.content
-
-
-class ReportUser(models.Model):
-    author = models.ForeignKey(
-        User, related_name="report_user", on_delete=models.CASCADE
-    )
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["-created"]
-
-    def __str__(self):
-        return self.content
-
-
-class ReportComment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    content = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        ordering = ["-created"]
-
-    def __str__(self):
-        return self.content
+        return self.author
