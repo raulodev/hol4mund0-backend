@@ -4,7 +4,6 @@ from rest_framework import routers
 
 from core.views.articles import views as articles_views
 from core.views.comments import views as comments_views
-from core.views.reports import views as reports_views
 from core.views.likes import views as likes_views
 from core.views import users as users_views
 from core.views.auth import RegistrationView
@@ -15,9 +14,6 @@ router = routers.DefaultRouter()
 router.register("api/articles", articles_views.ArticleViewset)
 router.register("api/users", users_views.UserViewSet)
 router.register("api/comments", comments_views.CommentViewSets)
-router.register("api/reportarticle", reports_views.ReportArticleViewSet)
-router.register("api/reportcomment", reports_views.ReportCommentViewSet)
-router.register("api/reportuser", reports_views.ReportUserViewSet)
 router.register("api/like", likes_views.LikeViewSet)
 
 
