@@ -1,13 +1,11 @@
 from django.conf import settings
 from rest_framework import serializers
+
 from core.models import (
     Article,
-    User,
     Comment,
     Like,
-    ReportArticle,
-    ReportComment,
-    ReportUser,
+    User,
 )
 
 
@@ -206,27 +204,3 @@ class RetriveUserSerializer(UserSerializer):
         ]
 
         read_only_fields = fields
-
-
-class ReportArticleSerializer(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source="author.username")
-
-    class Meta:
-        model = ReportArticle
-        fields = ["id", "author", "article", "content", "created"]
-
-
-class ReportCommentSerializer(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source="author.username")
-
-    class Meta:
-        model = ReportComment
-        fields = ["id", "author", "comment", "content", "created"]
-
-
-class ReportUserSerializer(serializers.ModelSerializer):
-    author = serializers.ReadOnlyField(source="author.username")
-
-    class Meta:
-        model = ReportUser
-        fields = ["id", "author", "user", "content", "created"]
