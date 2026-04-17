@@ -17,7 +17,7 @@ ALLOWED_HOSTS = config("ALLOWED_HOSTS", cast=Csv())
 
 CORS_ALLOWED_ORIGINS = config("CORS_ALLOWED_ORIGINS", cast=Csv())
 
-# Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = [
     "django.contrib.admin",
