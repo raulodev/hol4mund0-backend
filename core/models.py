@@ -1,6 +1,7 @@
 from autoslug import AutoSlugField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 def directory_profile_images(instance, filename):
@@ -16,10 +17,11 @@ class User(AbstractUser):
         GITHUB = "GITHUB"
         TWITTER = "TWITTER"
 
+    email = models.EmailField(_("email address"), unique=True)
     auth_provider = models.CharField(choices=AuthProviderChoices.choices, max_length=7)
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["email"]
+    REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
         return self.email
