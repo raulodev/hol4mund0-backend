@@ -12,7 +12,7 @@ class ArticleFilter(filters.FilterSet):
         fields = {"title": ["icontains"], "author": ["exact"], "is_draft": ["exact"]}
 
 
-class ArticleListCreateAPIView(generics.ListCreateAPIView):
+class ArticleListCreateView(generics.ListCreateAPIView):
     queryset = Article.objects.filter(is_draft=False).order_by("-id")
     serializer_class = ArticleSerializers
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
