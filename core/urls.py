@@ -6,6 +6,7 @@ from core.views.articles import ArticleDetailView, ArticleListCreateView
 from core.views.comments import CommentListCreateView, CommentDeleteView
 from core.views.likes import SyncLikeView
 from core.views.users import MeView
+from core.views.auth import SocialLoginView
 
 urlpatterns = [
     path("v1/token/", TokenObtainPairView.as_view()),
@@ -15,6 +16,7 @@ urlpatterns = [
     path("v1/likes/", SyncLikeView.as_view()),
     path("v1/comments/<int:article>/", CommentListCreateView.as_view()),
     path("v1/comments/<int:pk>/", CommentDeleteView.as_view()),
+    path("v1/auth/social/", SocialLoginView.as_view()),
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
 ]
