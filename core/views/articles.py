@@ -2,7 +2,7 @@ from django_filters import rest_framework as filters
 from rest_framework import generics, permissions
 
 from core.models import Article
-from core.permissions import IAuthorOrReadOnly
+from core.permissions import IsAuthorOrReadOnly
 from core.serializers.articles import ArticleSerializers
 
 
@@ -22,7 +22,7 @@ class ArticleListCreateView(generics.ListCreateAPIView):
         return serializer.save(author=self.request.user)
 
 
-class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializers
-    permission_classes = [IAuthorOrReadOnly]
+    permission_classes = [IsAuthorOrReadOnly]
