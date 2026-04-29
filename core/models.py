@@ -68,10 +68,23 @@ class ArticleView(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+class LikeQuerySet(models.QuerySet):
+    def create_or_delete(self, *args, **kwargs):
+        instance, is_created = self.get_or_create(*args, **kwargs)
+        if is_created:
+            return instance, False
+
+        else:
+            instance.delete()
+            return None, True
+
+
 class Like(models.Model):
     author = models.ForeignKey(User, related_name="likes", on_delete=models.CASCADE)
     article = models.ForeignKey(Article, related_name="likes", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = LikeQuerySet.as_manager()
 
     class Meta:
         unique_together = ["author", "article"]

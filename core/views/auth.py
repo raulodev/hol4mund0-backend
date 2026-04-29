@@ -1,14 +1,15 @@
-import re
 import random
+import re
 import string
+
 import requests
-from requests_oauthlib import OAuth1
 from django.conf import settings
+from requests_oauthlib import OAuth1
+from rest_framework import permissions, status
 from rest_framework.response import Response
-from rest_framework import permissions
-from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+
 from core.models import User
 
 
