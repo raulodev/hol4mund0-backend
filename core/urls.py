@@ -3,7 +3,7 @@ from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from core.views.articles import ArticleDetailView, ArticleListCreateView
-from core.views.comments import CreateCommentView, DeleteCommentView
+from core.views.comments import CommentListCreateView, CommentDeleteView
 from core.views.likes import SyncLikeView
 from core.views.users import MeView
 
@@ -13,8 +13,8 @@ urlpatterns = [
     path("v1/articles/<int:pk>/", ArticleDetailView.as_view()),
     path("v1/me/", MeView.as_view()),
     path("v1/likes/", SyncLikeView.as_view()),
-    path("v1/comments/", CreateCommentView.as_view()),
-    path("v1/comments/<int:pk>/", DeleteCommentView.as_view()),
+    path("v1/comments/<int:article>/", CommentListCreateView.as_view()),
+    path("v1/comments/<int:pk>/", CommentDeleteView.as_view()),
     path("v1/schema/", SpectacularAPIView.as_view(), name="schema"),
     path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
 ]

@@ -32,6 +32,6 @@ class SyncLikeView(generics.CreateAPIView):
             author=request.user, article_id=request.data.get("article")
         )
         if is_deleted:
-            return Response({}, status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
         serializer = self.get_serializer(like)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
