@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 def directory_profile_images(instance, filename):
-    return "profiles/{0}/{1}".format(instance.username, filename)
+    return "profiles/{0}/{1}".format(instance.user.id, filename)
 
 
 def directory_covers(instance, filename):
