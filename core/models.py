@@ -70,6 +70,12 @@ class ArticleView(models.Model):
 
 class LikeQuerySet(models.QuerySet):
     def create_or_delete(self, *args, **kwargs):
+        """Create or delete like
+
+        Returns:
+            tuple[instance , bool]: Like instance and is deleted
+        """
+
         instance, is_created = self.get_or_create(*args, **kwargs)
         if is_created:
             return instance, False
