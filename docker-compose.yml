@@ -1,0 +1,9 @@
+services:  
+  api:
+    build: .
+    container_name: hol4mund0-backend
+    expose:
+      - 8080
+    env_file:
+      - ./.env
+    restart: always
