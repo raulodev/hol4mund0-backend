@@ -111,6 +111,8 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATIC_URL = "static/"
 
+STATICFILES_DIRS = [BASE_DIR / "static"]
+
 MEDIA_ROOT = BASE_DIR / "media"
 MEDIA_URL = "media/"
 
@@ -139,6 +141,22 @@ SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
 }
 
+
+STORAGES = {
+    "default": {
+        "BACKEND": "storages.backends.s3.S3Storage",
+    },
+    "staticfiles": {
+        "BACKEND": "backend.storages.StaticStorage",
+    },
+}
+
+AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID", default=None)
+AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY", default=None)
+AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL", default=None)
+AWS_S3_SIGNATURE_VERSION = "s3v4"
+AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME", default=None)
+AWS_STATIC_STORAGE_BUCKET_NAME = config("AWS_STATIC_STORAGE_BUCKET_NAME", default=None)
 
 TWITTER_ACCESS_KEY = config("TWITTER_ACCESS_KEY", default=None)
 TWITTER_SECRET_KEY = config("TWITTER_SECRET_KEY", default=None)
