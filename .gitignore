@@ -6,3 +6,4 @@ staticfiles
 .coverage
 media
 cov_html
+.vscode
