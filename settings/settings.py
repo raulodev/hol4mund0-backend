@@ -74,11 +74,11 @@ WSGI_APPLICATION = "settings.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": config("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": config("SQL_DATABASE", BASE_DIR / "db.sqlite3"),
-        "USER": config("SQL_USER", "user"),
-        "PASSWORD": config("SQL_PASSWORD", "password"),
-        "HOST": config("SQL_HOST", "localhost"),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("SQL_DATABASE"),
+        "USER": config("SQL_USER"),
+        "PASSWORD": config("SQL_PASSWORD"),
+        "HOST": config("SQL_HOST"),
         "PORT": config("SQL_PORT", "5432"),
     }
 }
@@ -156,7 +156,6 @@ AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY", default=None)
 AWS_S3_ENDPOINT_URL = config("AWS_S3_ENDPOINT_URL", default=None)
 AWS_S3_SIGNATURE_VERSION = "s3v4"
 AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME", default=None)
-AWS_STATIC_STORAGE_BUCKET_NAME = config("AWS_STATIC_STORAGE_BUCKET_NAME", default=None)
 
 TWITTER_ACCESS_KEY = config("TWITTER_ACCESS_KEY", default=None)
 TWITTER_SECRET_KEY = config("TWITTER_SECRET_KEY", default=None)
