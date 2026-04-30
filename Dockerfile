@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM docker.uclv.cu/python:3.12-slim
 
 WORKDIR /usr/src/app
 
