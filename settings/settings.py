@@ -102,7 +102,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "es-es"
 
-TIME_ZONE = "Cuba"
+TIME_ZONE = "America/Havana"
 
 USE_I18N = True
 
