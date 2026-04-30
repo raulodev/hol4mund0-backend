@@ -30,3 +30,4 @@ class CommentListCreateView(generics.ListCreateAPIView):
 class CommentDeleteView(generics.DestroyAPIView):
     queryset = Comment.objects.all()
     permission_classes = [IsAuthorOrReadOnly]
+    serializer_class = CreateCommentSerializer
