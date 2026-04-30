@@ -7,8 +7,11 @@ python manage.py migrate
 echo "Creating cache table..."
 python manage.py createcachetable
 
-echo "Collecting static..."
-python manage.py collectstatic --noinput
+# Run collectstatic if needed
+if [ "$RUN_COLLECTSTATIC" = "True" ]; then
+    echo "Collecting static..."
+    python manage.py collectstatic --noinput
+fi
 
 echo "Starting server..."
 
