@@ -15,4 +15,4 @@ COPY . .
 
 EXPOSE 8080
 
-CMD ["gunicorn", "backend.wsgi:application", "--bind", "0.0.0.0:8080"]
+CMD ["gunicorn", "settings.wsgi:application", "--bind", "0.0.0.0:8080"]
