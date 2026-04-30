@@ -2,6 +2,8 @@ FROM docker.uclv.cu/python:3.12-slim
 
 WORKDIR /usr/src/app
 
+EXPOSE 8080
+
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -13,6 +15,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 8080
+ENTRYPOINT ["./entrypoint.sh"]
+
 
 CMD ["gunicorn", "settings.wsgi:application", "--bind", "0.0.0.0:8080"]
