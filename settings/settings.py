@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     "core",
     "django_filters",
     "drf_spectacular",
-    "drf_spectacular_sidecar",
 ]
 
 
@@ -131,8 +130,6 @@ SPECTACULAR_SETTINGS = {
     "TITLE": "Hol4 Mund0 API",
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
-    "SWAGGER_UI_DIST": "SIDECAR",
-    "SWAGGER_UI_FAVICON_HREF": "SIDECAR",
 }
 
 

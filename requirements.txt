@@ -13,4 +13,3 @@ requests-oauthlib==2.0.0
 python-decouple==3.8
 django-storages[s3]==1.14.6
 drf-spectacular==0.29.0
-drf-spectacular-sidecar==2026.4.14
